@@ -1,0 +1,78 @@
+/******************************************************************************
+Module: esp32s3_tiny_esp32s3_procpu.overlay
+
+Description: This is an overlay for the board configuration of esp3s3_tiny, defined in the "board" folder
+******************************************************************************/
+/******************************************************************************
+                INCLUDES
+ *****************************************************************************/
+#include <zephyr/dt-bindings/led/led.h>
+
+
+/******************************************************************************
+                HARDWARE PIN CONFIGURATION AND ALIASES
+ *****************************************************************************/
+/ {
+	aliases {
+		rbg-led = &led_strip;
+	};
+};
+
+
+/******************************************************************************
+                LED
+ *****************************************************************************/
+&pinctrl {
+	i2s0_pinconf: i2s0_pinconf {
+		group1 {
+			pinmux = <I2S0_O_SD_GPIO38>;
+			output-enable;
+		};
+	};
+};
+
+&i2s0 {
+	pinctrl-0 = <&i2s0_default>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&dma {
+	status = "okay";
+};
+
+i2s_led: &i2s0 {
+	status = "okay";
+
+	pinctrl-0 = <&i2s0_pinconf>;
+
+	dmas = <&dma 3>;
+	dma-names = "tx";
+
+	led_strip: ws2812 {
+		compatible = "worldsemi,ws2812-i2s";
+
+		i2s-dev = <&i2s_led>;
+		chain-length = <1>;
+		color-mapping = <LED_COLOR_ID_RED
+						 LED_COLOR_ID_GREEN
+				         LED_COLOR_ID_BLUE>;
+		reset-delay = <500>;
+	};
+};
+
+/******************************************************************************
+                    NETWORK
+ *****************************************************************************/
+&wifi {
+	status = "okay";
+};
+
+/ {
+	wifi_ap: wifi_ap {
+		compatible = "espressif,esp32-wifi";
+		status = "okay";
+	};
+};
+
+

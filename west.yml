@@ -1,0 +1,27 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+# - The workspace is "zephyr-workspace"
+# - Under it, there is the folder "zephyr", and it is the main Zephyr RTOS repository, which is the RTOS that our application runs on top of.
+# - This "west.yml" file is a blueprint that will "update" the Zephyr RTOS to the corresponding version and download necessary modules
+# - When we run "west update -n". The folder ".west" under the workspace will be searched for "config", which will then link to this "west.yml"
+
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: v4.0.0
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - hal_espressif
+          - mbedtls
+           

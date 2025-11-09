@@ -1,0 +1,16 @@
+# Main Kconfig for the application
+
+config USING_UDP
+    bool "Enable custom UDP server"
+    default n
+    help
+      Select 'y' to enable the use of UDP socket in this
+      application. This will start the UDP listener thread.
+
+
+config USING_TCP
+    bool "Enable custom TCP server"
+    default y
+    help
+      Select 'y' to enable the use of TCP socket in this
+      application. This will start the TCP listener thread.
