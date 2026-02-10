@@ -89,9 +89,9 @@ Once the board is running and connected to Wi-Fi (check the Serial Monitor for t
 
 ```bash
 # For TCP Testing:
-python3 application/script_tcp_sender.py
+python3 application/scripts/script_tcp_sender.py
 #  For UDP Testing:
-python3 application/script_udp_sender.py
+python3 application/scripts/script_udp_sender.py
 ```
 
 ---
